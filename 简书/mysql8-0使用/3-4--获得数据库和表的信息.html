@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.4. 获得数据库和表的信息</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">3.4. 获得数据库和表的信息</h1>
+        <div class="show-content">
+          <p>3.4. 获得数据库和表的信息</p><p>如果你忘记数据库或表的名字，或给定的表的结构是什么(例如，它的列叫什么)，怎么办？</p><p>MySQL通过提供数据库及其支持的表的信息的几个语句解决这个问题。</p><p>你已经见到了SHOW DATABASES，它列出由服务器管理的数据库。为了找出当前选择了哪个</p><p>数据库，使用DATABASE( )函数：</p><p>mysql&gt; SELECT DATABASE();</p><p>| DATABASE() |</p><p>+------------+</p><p>| menagerie |</p><p>+------------+</p><p>如果你还没选择任何数据库，结果是NULL。</p><p>为了找出当前的数据库包含什么表(例如，当你不能确定一个表的名字)，使用这个命令：</p><p>mysql&gt; SHOW TABLES;</p><p>+---------------------+</p><p>| Tables in menagerie |</p><p>+---------------------+</p><p>| event |</p><p>| pet |</p><p>+---------------------+</p><p>如果你想要知道一个表的结构，可以使用DESCRIBE命令；它显示表中每个列的信息：</p><p>mysql&gt; DESCRIBE pet;</p><p>+---------+-------------+------+-----+---------+-------+</p><p>| Field | Type | Null | Key | Default | Extra |</p><p>+---------+-------------+------+-----+---------+-------+</p><p>| name | varchar(20) | YES | | NULL | |</p><p>| owner | varchar(20) | YES | | NULL | |</p><p>| species | varchar(20) | YES | | NULL | |</p><p>| sex | char(1) | YES | | NULL | |</p><p>| birth | date | YES | | NULL | |</p><p>| death | date | YES | | NULL | |</p><p>+---------+-------------+------+-----+---------+-------+</p><p>Field显示列名字，Type是列的数据类型，Null表示列是否能包含NULL值，Key显示列是否被索</p><p>引而Default指定列的默认值。</p><p>如果表有索引，SHOW INDEX FROM tbl_name生成有关索引的信息。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

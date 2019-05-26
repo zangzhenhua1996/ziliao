@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mysql——3.2输入查询</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">mysql——3.2输入查询</h1>
+        <div class="show-content">
+          <p>      这里有一个简单的查询，要求服务器告诉您它的版本号和当前日期。在MySQL &gt;提示符下按如下所示键入它，并按Enter：</p><p>查看版本信息</p><p>select  version;</p><p>查看当前日期;</p><p>select  current_date;</p><p>       查询通常由一个SQL语句和一个分号组成。（有一些例外可以省略分号。退出，前面提到的，就是其中之一</p><p>       当您发出查询时，MYSQL将其发送到服务器执行，并显示结果，然后打印另一个mysql &gt;提示符以指示它已准备好进行另一个查询。</p><p>        MYSQL以表格形式显示查询输出（行和列）。第一行包含列的标签。下面的行是查询结果。通常，列标签是从数据库表中提取的列的名称。如果您正在检索表达式的值而不是表列（如刚才所示的示例），则MySQL使用表达式本身标记列。</p><p>        MYSQL显示返回的行数和查询执行的时间，这为服务器性能提供了一个粗略的概念。这些值是不精确的，因为它们代表壁时钟时间（而不是CPU或机器时间），并且因为它们受诸如服务器负载和网络延迟等因素的影响。（简而言之，在本章中的其余示例中，有时没有显示“行中的行”）。</p><p><br></p><p>mysql对大小写不是很敏感:下面三条是等价:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d4cb360518f4a190.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="557" height="150"><br><div class="image-caption"></div>
+</div><p>这是另一个查询。它演示了可以使用MYSQL作为一个简单的计算器：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-0f06b1be5b33dfd5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>        到目前为止，查询都是比较短的单行语句。甚至可以在单个行上输入多个语句。用分号结束每一个：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-f04dae7a21f1be8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>       查询不需要在一行上全部给出，因此需要多行的冗长查询不是问题。mysql通过查找结束分号而不是通过查找输入行的结尾来确定语句的结尾。（换句话说，MYSQL接受自由格式输入：它收集输入行，但直到看到分号才执行它们。）</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-3ffa2b281f68ce46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>         这里是一个简单的多行语句在这个例子中，注意在输入多行查询的第一行之后，提示如何从mysql &gt;改为-&gt;。这就是MySQL如何表明它还没有看到完整的语句并等待其余的语句。提示是你的朋友，因为它提供有价值的反馈。如果你使用这个反馈，你总是可以知道MySQL正在等待什么。如果您决定不执行正在进入的查询，则通过键入“\c”取消它：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-047d5c59fe4857ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>      这里也要注意提示。在键入\c之后，它会切换回MySQL</p><p>&gt;，提供反馈以指示MySQL已经准备好进行新的查询。</p><p>下表显示了您可能看到的每一个提示，并总结了它们对MySQL所处状态的含义。</p><p>Prompt     Meaning</p><p>mysql&gt;     准备好新查询</p><p>-&gt;             等待多行查询的下一行</p><p>'&gt;              等待下一行，等待以一个引用开始的字符串的完成 (')</p><p>"&gt;             等待下一行，等待以双引号开始的字符串的完成(")</p><p>`&gt;             等待下一行，等待完成一个标识符，该标识符以一个回程键开始 (`)</p><p>/*&gt;            等待下一行，等待完成以/*开始的注释</p><p>       多行语句通常是意外发生的，当您打算在单行上发出查询时，但是忘记了结束分号。在这种情况下，MySQL等待更多的输入：</p><p>       如果这种情况发生在您身上（您认为您已经输入了一个语句，但是唯一的响应是-&gt;提示符），那么mysql很可能正在等待分号。如果你没有注意到提示在告诉你什么，你可能会在那里坐一会儿，然后意识到你需要做什么。输入分号以完成语句，MYSQL执行该语句：</p><p>     在字符串收集过程中出现了’&gt;和”&gt;提示（MYSQL正在等待字符串完成的另一种方式）。在MYSQL中，您可以编写由’字符或“字符（例如，’hello’或“goodbye”）包围的字符串，并且mysql允许您输入跨越多行的字符串。当您看到’&gt;或“&gt;提示时，它意味着您已经输入了包含以’或”引号字符开头的字符串的行，但是尚未输入终止字符串的匹配引号。这常常表明你无意中漏掉了一个引号字符。例如：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-094ed3e7fa374c65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>      在这一点上，你做什么？最简单的方法是取消查询。但是，在这种情况下，不能仅键入\c，因为MySQL将它解释为它正在收集的字符串的一部分。相反，输入关闭引用字符（MySQL知道您已经完成了字符串），然后键入\c:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-6c6745b0917101d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>提示更改为MYSQL &gt;，表示MYSQL已准备好进行新查询。</p><p>提示，似于’&gt;和“&gt;提示，但是表示您已经开始但尚未完成以反勾号为引号的标识符。</p><p>了解提示符所表示的内容很重要，因为如果错误地输入了未定义的字符串，那么mysql将忽略您键入的任何其他行，包含QUIT的行。这非常令人困惑，特别是如果您不知道在取消当前查询之前需要提供终止的符号如’   “</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

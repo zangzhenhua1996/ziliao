@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乌班图安装mysql8.0</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">乌班图安装mysql8.0</h1>
+        <div class="show-content">
+          <p>直接使用apt install mysql-server安装，那么恭喜你踩坑。</p><p>sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码（我就是遇到了这个问题，结果搞了一下午╮(╯▽╰)╭）等等……</p><p>阅读了一下MySQL安装指南，发现MySQL5.7版本最高只适配到Ubuntu17.04，而MySQL8.0最高适配到Ubuntu18.04。</p><p>So，去 http://dev.mysql.com/downloads/repo/apt/.下载一个mysql-apt-config_0.*.****_all.deb，使用</p><p>sudo dpkg -imysql-apt-config_0.*.****_all.deb</p><p>安装执行，选择MySQL8.0，OK。          </p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-1bec149f2b16e901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-7f4927c680cd309f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-35da237628dba6f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-613cd81e96e68183.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d40c1bc1312fec70.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><p><br></p><p><br></p><p>然后sudo apt update一下</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ea62088fde7b9eb4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>使用<b>sudo apt install</b> mysql-server命令，就会安装MySQL8.0</p><p>安装服务：使用sudo 防止没有root权限：</p><p>apt-get install mysql-server</p><p>安装客户端</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-47850fb8743c9d7e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>按此方法会在安装过程中出现如下界面要求用户输入MySQL密码：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-7fc5f0c2fb097125.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>      MySQL8.0采用了新的加密方式，一定要注意，正是因为这个加密方式才导致Ubuntu18.04用设置的root密码登录不了MySQL，因为Ubuntu18.04的终端可能有问题，并不支持这个新的加密方式。幸好有界面可以让我们选择使用旧版本5.x的加密方式，所以果断选择采用5.x的加密方式</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-a4dfd64a5cf69e57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d611d4fc33927398.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><b>最后在终端输入mysql -u root -p命令并输入密码检查安装成功而且可以看到MySQL版本号为8.0！！</b></p><p>apt-getinstall mysql-client</p><p>安装完成后，MySQL 服务器一般会自动启动。</p><p>netstat -tap| grep mysql</p><p>配置MySQL 的管理员密码：</p><p>sudomysqladmin -u root password newpassword</p><p>安装mysql图形化管理</p><p>apt-getinstall mysql-workbench</p><p>进入ubuntu18.04.1图形化界面：</p><p>搜索mysql</p><p>workbench进行启动</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-6d09121f998045df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-8ee2906aee23b409.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mysql——3.3 创建和使用数据库</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">mysql——3.3 创建和使用数据库</h1>
+        <div class="show-content">
+          <p>一旦知道如何输入SQL语句，就可以访问数据库。假设你家里有几只宠物（你的动物园），你想了解关于它们的各种信息。可以通过创建表来保存数据并将它们加载到所需信息中。然后你可以通过从表格中检索数据来回答关于你的动物的不同种类的问题。本节将介绍如何执行以下操作：</p><p>创建数据库</p><p>创建表格</p><p>将数据加载到表中</p><p>以多种方式从表中检索数据</p><p>使用多个表</p><p>动物园数据库很简单（有意地），但是并不难想象现实世界中可能使用类似类型的数据库的情况。例如，这样的数据库可以被农民用来跟踪牲畜，或者被兽医用来跟踪病人记录。可以从MySQL网站获得包含以下部分中使用的一些查询和示例数据的menagerie分发版。</p><p>它在<a href="https://dev.mysql.com/doc/" target="_blank">https://dev.mysql.com/doc/</a>压缩的TAR文件和zip格式中都可用。</p><p>使用show语句查找服务器上当前存在的数据库：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-bfeff87f16ed87bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><p>MYSQL数据库描述了用户访问权限。测试数据库通常可用作工作空间，供用户试用。</p><p><br></p><p>语句显示的数据库列表在您的机器上可能不同；如果没有SHOW DATABASES特权，则</p><p>SHOW DATABASES不显示没有特权的数据库。请参阅第137.614节，“显示数据库语法”。</p><p><br></p><p>如果存在测试数据库，请尝试访问它：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-064771a63a24f7a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>使用，如退出，不需要分号。（如果您愿意，可以使用分号终止这些语句；它没有坏处。）USE语句在另一个方面也是特殊的：它必须在单行上给出。</p><p>您可以将测试数据库（如果您有权访问它）用于以下示例，但是任何其他具有访问权限的人都可以删除在该数据库中创建的任何内容。出于这个原因，您应该请求MySQL管理员使用您自己的数据库的权限。假设你想打电话给你的动物园。管理员需要执行这样的语句：</p><p><br></p><p>其中，_mysql_name是分配给您的MySQL用户名，_client_host是连接到服务器的主机。</p><p>3.3.1创建和选择数据库</p><p>如果管理员在设置权限时为您创建数据库，则可以开始使用它。否则，您需要自己创建：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-22bcd6ce82e94e40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>在Unix下，数据库名称区分大小写（不同于SQL关键字），因此必须始终将数据库称为menagerie，而不是Menagerie、MENAGERIE或其他变体。这对于表名也是如此。（在Windows下，这个限制不适用，尽管您必须在给定的查询中使用相同的字母引用数据库和表）。然而，由于各种原因，推荐的最佳实践总是使用与创建数据库时使用的相同的字母。</p><p>注释：</p><p>如果出现错误，如ERROR 1044(42000)：当试图创建数据库时，用户“micah”@“localhost”拒绝访问数据库“menagerie”，这意味着您的用户帐户没有进行访问的必要特权。与管理员讨论此问题，或参见第6.2节“MySQL访问特权系统”。</p><p>创建数据库不会选择使用它；您必须显式地执行该操作。要使menagerie成为当前数据库，请使用此语句：</p><p>use menagerie</p><p>您的数据库只需创建一次，但每次启动MySQL会话时必须选择它。可以通过发出一个使用语句来实现这一点，如示例中所示。或者，您可以在调用MYSQL时在命令行上选择数据库。只需在可能需要提供的任何连接参数之后指定其名称即可。例如：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-c16ecdb85bed6489.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-46dea9d002b24944.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>Mysql 登录时ServerHost写什么?</p><p>如果数据库在本机可以写<a href="https://www.baidu.com/s?wd=127.0.0.1&amp;tn=SE_PcZhidaonwhc_ngpagmjz&amp;rsv_dl=gh_pc_zhidao" target="_blank">127.0.0.1</a>或者是localhost，若在其他机器上，写mysql数据库所在的IP。</p><p>对应的是上面的-h host 部分的内容</p><p>重要的</p><p>刚才显示的命令中的menagerie不是你的密码。如果您想在-p选项后面的命令行上提供密码，则必须没有中间空间（例如，as-p password，而不是as-p密码）。但是，不建议将密码放在命令行上，因为这样做会使登录到您的机器上的其他用户窥探密码。</p><p><br></p><p>注意:您可以在任何时候使用SELECT DATABASE（）选择当前数据库。</p><p>3.3.2 创建表</p><p>创建数据库是很容易的一部分，但在这一点上，它是空的，正如显示表告诉您的：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-34f35e22ee706b4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>更难的部分是决定数据库的结构应该是什么？：您需要哪些表，以及每个表中应该包含哪些列。</p><p>您需要一个包含每个宠物的记录的表。这可以称为宠物表，它应该包含，作为最低限度，每一个动物的名字。因为名称本身并不十分有趣，所以表应该包含其他信息。例如，如果你家里不止一个人养宠物，你可能要列出每一个动物的主人。你也可能想要记录一些基本的描述性信息，比如物种和性别。</p><p>年龄如何？这可能是有意思的，但是存储在数据库中不是一件好事。年龄随着时间的推移而变化，这意味着你必须经常更新你的记录。相反，最好存储一个固定值，比如出生日期。然后，每当你需要年龄，你可以计算它作为当前日期和出生日期之间的差异。MYSQL提供了进行日期运算的功能，所以这并不困难。存储出生日期而不是年龄还有其他优点：</p><p>·  您可以使用数据库执行任务，例如为即将到来的宠物生日生成提醒。（如果您认为这种类型的查询有些愚蠢，请注意，您可能会在业务数据库的上下文中询问相同的问题，以确定您需要在当前一周或一个月内向其发送生日祝福的客户，计算机辅助个人触摸。）</p><p>· 您可以计算与当前日期以外的日期相关的年龄。例如，如果您将死亡日期存储在数据库中，则可以轻松计算宠物死亡时的年龄。</p><p>·您可以想到在pet表中有用的其他类型的信息，但到目前为止确定的信息是足够的：姓名，所有者，物种，性别，出生和死亡。</p><p>使用CREATE</p><p>TABLE语句指定CREATE TABLE的布局：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-294980f8d2d40b33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-94c357c8901c6699.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>这里注意一下括号不要加错了地方</p><p><a href="https://translate.googleusercontent.com/translate_c?depth=1&amp;hl=zh-CN&amp;rurl=translate.google.com&amp;sl=auto&amp;sp=nmt4&amp;tl=zh-CN&amp;u=https://dev.mysql.com/doc/refman/8.0/en/char.html&amp;xid=17259,15700022,15700124,15700149,15700186,15700191,15700201,15700214,15700230&amp;usg=ALkJrhgGOq6Git2y4QSHVpGezvDTZl3OiQ" target="_blank">VARCHAR</a>（可变长字符串）是name ， owner和species（种类）列的不错选择，因为列值的长度不同。这些列定义中的长度不必全部相同，也不必为20 。</p><p>您通常可以选择1到65535任何长度，无论您认为哪个最合理。如果你选择不好而后来需要更长的字段，MYSQL会提供一个<a href="https://translate.googleusercontent.com/translate_c?depth=1&amp;hl=zh-CN&amp;rurl=translate.google.com&amp;sl=auto&amp;sp=nmt4&amp;tl=zh-CN&amp;u=https://dev.mysql.com/doc/refman/8.0/en/alter-table.html&amp;xid=17259,15700022,15700124,15700149,15700186,15700191,15700201,15700214,15700230&amp;usg=ALkJrhiHsyd6qPeDj7Q8lYScTSBh61XMtw" target="_blank">ALTER</a></p><p>TABLE语句。</p><p>可以选择几种类型的值来表示动物记录中的性别，例如'm'和'f' ，或者可能是'male'和'female' 。最简单的是使用单个字符'm'和'f' 。</p><p>对于birth和death列 使用<a href="https://translate.googleusercontent.com/translate_c?depth=1&amp;hl=zh-CN&amp;rurl=translate.google.com&amp;sl=auto&amp;sp=nmt4&amp;tl=zh-CN&amp;u=https://dev.mysql.com/doc/refman/8.0/en/datetime.html&amp;xid=17259,15700022,15700124,15700149,15700186,15700191,15700201,15700214,15700230&amp;usg=ALkJrhjAlnlOF-tqqKk2vOkZ6k7VIsqcUQ" target="_blank">DATE</a>数据类型是一个相当明显的选择。</p><p>创建表后， <a href="https://translate.googleusercontent.com/translate_c?depth=1&amp;hl=zh-CN&amp;rurl=translate.google.com&amp;sl=auto&amp;sp=nmt4&amp;tl=zh-CN&amp;u=https://dev.mysql.com/doc/refman/8.0/en/show-tables.html&amp;xid=17259,15700022,15700124,15700149,15700186,15700191,15700201,15700214,15700230&amp;usg=ALkJrhjnTjSkffAb5hUOnDCjYLWunrWCFA" target="_blank">SHOW</a></p><p>TABLES应生成一些输出：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-9c5a7b78bc1129f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>要验证 您的表是否按预期方式创建，请使用<a href="https://translate.googleusercontent.com/translate_c?depth=1&amp;hl=zh-CN&amp;rurl=translate.google.com&amp;sl=auto&amp;sp=nmt4&amp;tl=zh-CN&amp;u=https://dev.mysql.com/doc/refman/8.0/en/describe.html&amp;xid=17259,15700022,15700124,15700149,15700186,15700191,15700201,15700214,15700230&amp;usg=ALkJrhjc4Dyx0iOUAvqmf7xvSgCegPZbZg" target="_blank">DESCRIBE</a>语句：</p><p>您可以随时使用<a href="https://translate.googleusercontent.com/translate_c?depth=1&amp;hl=zh-CN&amp;rurl=translate.google.com&amp;sl=auto&amp;sp=nmt4&amp;tl=zh-CN&amp;u=https://dev.mysql.com/doc/refman/8.0/en/describe.html&amp;xid=17259,15700022,15700124,15700149,15700186,15700191,15700201,15700214,15700230&amp;usg=ALkJrhjc4Dyx0iOUAvqmf7xvSgCegPZbZg" target="_blank">DESCRIBE</a> ，例如，如果您忘记了表中列的名称或它们具有的类型。</p><p>有关MySQL数据类型的更多信息，请参见<a href="https://translate.googleusercontent.com/translate_c?depth=1&amp;hl=zh-CN&amp;rurl=translate.google.com&amp;sl=auto&amp;sp=nmt4&amp;tl=zh-CN&amp;u=https://dev.mysql.com/doc/refman/8.0/en/data-types.html&amp;xid=17259,15700022,15700124,15700149,15700186,15700191,15700201,15700214,15700230&amp;usg=ALkJrhhM3CjomofCLuZf3f01BlnpULPBNw" target="_blank">第11章， <i>数据类型</i></a> 。</p><p>3.3.3 将数据加载到表中</p><p>创建表之后，需要填充它。LOAD数据和INSERT语句对此非常有用。假设您的宠物记录如下所示。(注意MySQL希望日期为'YYYY-MM-DD'格式;这可能和你习惯的不一样。</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-34e70df520afc02d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>因为您从一个空表开始，填充它的一种简单方法是创建一个包含每个动物行的文本文件，然后用一条语句将文件的内容加载到表中。</p><p>您可以创建一个文本文件pet.txt文件每行包含一条记录，值以制表符分隔，并按照CREATE TABLE语句中列的顺序给出。对于缺失的值(例如未知的性别或仍然存活的动物的死亡日期)，您可以使用NULL值。要在文本文件中表示这些内容，请使用\N(反斜杠，大写-N)。例如，Whistler的记录是这样的(值之间的空白是一个制表符):</p><p>需要注意的是在txt文件中每一项之间用table也就是四个英文空格的距离来隔开每一项.</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-151eaf234b24a905.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>加载文本文件pet.txt进入pet表，使用以下语句：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-0149b42a5d293aca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-fa298a5e515094ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>这一条语句可以查看某些关键东西结果如下</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d1c79c4e1be44dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如果想要能够加载数据，在开启数据库的时候使用下面的语句：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-1fd64b244d9fa26a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><p>使用上述语句再加载数据就不会报错了：</p><p>将下面的数据保存成txt格式就可以:</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-b85a9d117c650e0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-fb23782f816b0236.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ae7dbea2d38a64c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如果要一次添加一条新记录，INSERT语句很有用。在最简单的形式中，您按照CREATE</p><p>TABLE语句中列出的列的顺序为每列提供值。假设Diane得到了一个名为“Puffball”的新仓鼠。你可以使用这样的INSERT语句添加一条新记录：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-2fd25a205a6269a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-bcb607b236768ae9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>字符串和日期值在这里被指定为引用字符串。此外，使用INSERT，可以直接插入NULL来表示缺失值。不使用与负载数据类似的\n。</p><p>从这个示例中，您应该能够看到，最初使用几个INSERT语句而不是单个LOAD</p><p>DATA语句加载记录需要更多的类型。</p><p>3.3.4从表格中检索信息</p><p>所需的<a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank">SELECT</a>语句用于从表格中提取信息。报表的一般形式 IS：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-eebfeb12a35319e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><i>what_to_select</i>指示您的内容想看看。这可以是列的列表，或*以指示"所有列。" <i>which_table</i>指示表格您要检索数据。所需的WHERE子句是可选的。如果存在，<i>conditions_to_satisfy</i>指定一个或多行必须满足的更多条件检索。</p><p>3.3.4.1选择所有数据</p><p>最简单的形式<a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank">SELECT</a>从表格中检索所有内容：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-7f2ec2e753068596.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>这种形式的SELECT在您想要查看整个表时很有用，例如，在您刚刚用初始数据集加载它之后。例如，你可能会认为Bowser的出生日期似乎不太正确。咨询你的原始系谱文件，你会发现正确的出生年份应该是1989，而不是1979。</p><p>至少有两种方法来解决这个问题：</p><p>编辑文件pet.txt以更正错误，然后清空表并使用DELETE和LOAD DATA重新加载它：</p><p>删除整个pet中的内容:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-dbd0c5df1583da84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>但是，如果你这样做，你还必须重新加入不在文本中的数据的记录,用insert加入的那一条。</p><p>仅用更新语句修复错误记录：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-77a68d045f4a0a50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>更新只更改所记录的记录，不需要重新加载表。</p><p>3.3.4.2选择特定行</p><p>如前一节所示，检索整个表是很容易的。只需从SELECT语句省略WHERE子句即可。但通常情况下，你不想看到整个列表，尤其是当它变大的时候。相反，您通常对回答特定问题更感兴趣，在这种情况下，您需要指定对信息的一些约束。让我们来看看一些关于你宠物回答问题的选择查询。</p><p>只能从表中选择特定的行。例如，如果您想验证您对Bowser出生日期的更改，请选择Bowser的记录如下：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d8ca7271ed6172ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>输出确认年被正确记录为1989，而不是1979。</p><p>字符串比较通常是大小写不敏感的，因此您可以将名称指定为“bowser”、“Bowser”等。查询结果是相同的。</p><p>您可以指定任何栏上的条件，而不只是名称。例如，如果你想知道哪些动物在1998岁或以下出生，测试出生行：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-34229259fce9af92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>例如，你可以结合条件来定位雌性狗：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-655099c6b1dc6cc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>前面的查询使用AND逻辑运算符。还有一个OR运算符:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-377579a94d9c175c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>AND和OR可以混合，但AND的优先级高于OR。如果您同时使用这两个运算符，最好使用括号明确指出条件应如何分组：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-fd3fcb28789b08db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>3.3.4.3选择特定列</p><p>如果不想从表中看到整行，只需将您感兴趣的列命名为逗号分隔。例如，如果你想知道你的动物何时出生，选择名字和出生列：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-0b163845c31626b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>要找出谁拥有宠物，请使用此查询：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d7d2e8aad9fd85b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>请注意，查询只是从每条记录中检索所有者列，其中一些列出现不止一次。要最小化输出，请通过添加关键字DISTINCT检索每个唯一的输出记录一次：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-fb5d37d01635d283.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>您可以使用WHERE句子将行选择与列选择组合在一起。例如，要仅获取狗和猫的出生日期，请使用以下查询：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-48822faad5b66104.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><p>3.3.4.4排序</p><p>在前面的示例中，您可能已经注意到，结果行没有按特定顺序显示。当以某种有意义的方式排序行时，通常更容易检查查询输出。若要排序结果，请使用ORDER BY子句。</p><p>这里是动物的生日，按日期排序：</p><div class="image-package  " data-index="1">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-4ea61d8dd5e7a9a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">升序排列</div>
+</div><p><br></p><p>在字符类型列中，排序与所有其他比较操作通常以不区分大小写的方式执行。这意味着对于除了它们的情况相同的列，顺序是未定义的。您可以通过使用二进制（类似于：按二进制COLYNEX的顺序）强制列的区分大小写排序。</p><p>默认排序顺序为升序，以最小值为先。若要按反向（降序）排序，请将DESC关键字添加到正在排序的列的名称：</p><div class="image-package  " data-index="2">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-814b3f9c38e3af03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">反向排序</div>
+</div><p><br></p><p>您可以对多个列进行排序，并且可以对不同方向的不同列进行排序。例如，要按动物的类型按升序排序，然后按动物类型内的出生日期按降序排序（最年轻的动物优先），使用以下查询：</p><div class="image-package  " data-index="3">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-e9da05de6e983274.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">动物升序,日期降序</div>
+</div><p><br></p><p>DESC关键字仅应用于紧挨着它（出生）的列名；它不影响其他列排序顺序。</p><p>3.3.4.5日期计算</p><p>MySQL提供了几个函数，可以使用这些函数对日期执行计算，例如，计算年龄或提取日期的一部分。</p><p>要确定每个宠物的年龄是多少岁，请使用<a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html#function_timestampdiff" target="_blank">TIMESTAMPDIFF()</a>函数。它的参数是你想要结果表达的单位，而两个日期是用来区别的。下面的查询显示了每个宠物的出生日期、当前日期和年的年龄。别名（AGE）用于使最终输出列标签更有意义。   curdate( )     就是current date(当前日期的意思)</p><div class="image-package  " data-index="4">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ad169e8befcc2f08.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height: 200px; min-width: 200px;" title="" width="auto" height="auto"><br><div class="image-caption">计算日期年龄</div>
+</div><p><br></p><p>查询工作，但是如果按顺序呈现行，则可以更容易地扫描结果。这可以通过添加order by name子句来按名称(name)对输出进行排序：</p><div class="image-package  " data-index="5">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ae0dbdf4cad767dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height: 200px; min-width: 200px;" title="" width="auto" height="auto"><br><div class="image-caption">按照name顺序进行查询</div>
+</div><p><br></p><p>要按年龄而不是名称对输出进行排序，只需使用不同的ORDE BY子句：</p><div class="image-package  " data-index="6">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-04a99641edd98dff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height: 200px; min-width: 200px;" title="" width="auto" height="auto"><br><div class="image-caption">按照年龄排序</div>
+</div><p><br></p><p>类似的查询可以用来确定已经死亡的动物的死亡年龄。你可以通过检查死亡值是否为零来确定哪些动物。然后，对于那些具有非空值的人，计算死亡和出生值之间的差值：(为死亡的利用where语句进行排除)</p><div class="image-package  " data-index="7">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-e5137e7011060511.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">只有一只动物是死亡的,所以只输出一个</div>
+</div><p><br></p><p>该查询使用.IS NOT NULL而不是 &lt;&gt;NULL，因为NULL是一个特殊的值，不能使用通常的比较运算符进行比较。这将在后面讨论。请参阅第3.3.4.6节，“使用空值”。</p><p>如果你想知道下个月哪些动物有生日呢？对于这种类型的计算，年和日是不相关的；您只想提取出生列的月份部分。MySQL提供了一些用于提取日期的函数，如YEAR()、MONTH()和DAYOFMONTH().</p><p> MONTH() 是这里的适当函数。要查看它是如何工作的，运行一个简单的查询，显示出生和 MONTH(birth)的值：</p><div class="image-package  " data-index="8">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-1d54f14faac46ff7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">显示出生以及  月份</div>
+</div><p><br></p><p>在即将到来的一个月里，用生日找到动物也很简单。假设当前月份是四月。然后这个月值是4，你可以在5月（5个月）寻找这样的动物：</p><div class="image-package  " data-index="9">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-6b703c1f5a10d04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">查找生日是5月的动物</div>
+</div><p><br></p><p>如果当前月份是十二月，则会出现一个小的并发症。你不能只增加一个月数（12），寻找出生在13个月的动物，因为没有这样的月份。相反，你寻找一月出生的动物（1个月）。</p><p>您可以编写查询，以便不管当前月份是什么，它都可以工作，这样您就不必使用特定月份的数字。DATE_ADD() 使您可以在给定的日期添加时间间隔。如果将一个月添加到CURDATE()的值中，然后用MONTH() 提取月份部分，则结果生成月份以查找生日： </p><div class="image-package  " data-index="10">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-484a4142ad3fd6b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">当前月份是11月   将当前日期加一个月并用month提取月份完成相同任务的不同方法是在使用模函数（MOD）将月份值包装为0（如果当前是12):</div>
+</div><div class="image-package  " data-index="11">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ab6f912b9df8a9ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如果当前月份是12月则用mod函数变成0    并且加一.就是说当前如果是12月则查询的是1月的,如果是11月则查询的是12月的</p><p>MONTH() 返回1到12之间的数字。而mod（something，12）返回0到11之间的数字。因此，加法必须在MODE（）之后，否则我们将从十一月（11）到一月（1）。</p><p>如果计算使用无效日期，则计算失败并产生警告：      note: interval(间隔)</p><div class="image-package  " data-index="12">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-b4d5b421896eb49e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><div class="image-package  " data-index="13">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d066293e58ca15c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption">没有这个日期所以出现了警告,警告的意思就是不正确的日期值</div>
+</div><p>3.3.4.6空值_工作</p><p>空值可能是令人惊讶的，直到你习惯它。从概念上说，NULL意味着“缺失的未知值”，它与其他值有点不同。</p><p>若要测试NULL，请使用 IS NULL和 IS NOT NULL 而不是NULL运算符，如图所示：</p><div class="image-package  " data-index="14">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-b16f5d3e42fcdc8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>不能使用算术比较运算符，如=、&lt;或&lt; &gt;来测试NULL。要为自己演示这一点，请尝试以下查询：</p><div class="image-package  " data-index="15">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-6cb6b8767db96b02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>因为与NULL的任何算术比较的结果也是NULL，所以您无法从这些比较中获得任何有意义的结果。</p><p>在MySQL中，0或NULL意味着false，其他任何东西都是真的。布尔运算的默认真值为1。</p><p>这种对NULL的特殊处理就是为什么，在前一节中，必须确定哪些动物不再存活，使用</p><p> death IS NOT NULL 而不是death &lt;&gt; NULL.</p><p>在组中，两个空值被视为相等。</p><p>在执行排序时，如果您ORDER BY ... ASC，首先显示空值。ASC和最后显示空值如果你做</p><p>ORDER BY ... DESC</p><p>使用NULL时常见的错误是假设不可能将零或空字符串插入定义为NOT NULL的列中，但事实并非如此。这些值实际上是值，而NULL意味着“没有值”。您可以通过使用IS(NOT)NULL轻松地测试它，如下所示：</p><div class="image-package  " data-index="16">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-434596c600b11a47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="min-height:200px;min-width:200px;" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>空字符以及0都是有值的</p><p>因此，完全可以将零或空字符串插入非空列，因为这些实际上不是空的。请参阅B.5.4.3节，“空值问题”。</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p>3.3.4.7模式匹配</p><p>MySQL提供了标准的SQL模式匹配以及基于扩展正则表达式的模式匹配形式，类似于Unix实用工具（如vi、grep和sed）所使用的正则表达式。</p><p>SQL模式匹配使您可以使用 _ 来匹配任何单个字符，并使用 % 来匹配任意数量的字符（包括零字符）。在MySQL中，默认情况下SQL模式不区分大小写。这里给出了一些例子。在使用SQL模式时不要使用 = 或&lt; &gt;。使用类似 LIKE 或 NOT LIKE 比较运算符代替。</p><p>从B开头查找姓名：(注意的是B在%前面)</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-434aefcc17fe5100.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">查找姓名是以B开头的选项</div>
+</div><p><br></p><p>用FY结尾查找姓名：(注意的是FY在%的后面)</p><p><br></p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-99226cda6dbd3249.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption">查找姓名是以FY结尾的选项</div>
+</div><p>查找包含W的名称：(注意的是w 两个%之间)</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-7b4718c5f12a069a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption">查找包含w的选项</div>
+</div><p>若要查找包含五个字符的名称，请使用多个字符模式    _  ：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-330dec0c0ab4a8a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">这里在引号里面有五个下划线表示要查找长度为五个字符的name选项</div>
+</div><p>       MySQL提供的另一种模式匹配使用扩展正则表达式。当您为这种类型的模式进行匹配时，使用REGEXP_LIKE()函数（或REGEXP或RLIKE运算符，这是REGEXP_LIKE()的同义词）。</p><p>下面的列表描述了扩展正则表达式的一些特性：</p><p>. 匹配任何单个字符。</p><p>字符类[…]匹配括号内的任何字符。例如，[ABC]匹配A、B或C来命名一系列字符，使用破折号。[A-Z]匹配任何字母，而[0－9]匹配任何数字。</p><p>* 匹配它前面的事物的零个或多个实例。例如，x*匹配任何x个字符，[0-9] *匹配任何位数，并且  .*  匹配任何数目的任何东西。</p><p>如果模式匹配测试值中的任何位置，则正则表达式模式匹配成功。（这与类似的模式匹配不同，只有当模式匹配整个值时才成功。）</p><p>若要锚定一个模式，以便它必须与被测试值的开始或结束匹配，请在模式的开始或结束时使用 ^ 或 $。</p><p>为了演示如何扩展正则表达式的工作，前面所示的类似查询LIKE在这里被重写为使用<a href="https://dev.mysql.com/doc/refman/8.0/en/regexp.html#function_regexp-like" target="_blank">REGEXP_LIKE()</a>.。</p><p>从B开始查找名称，使用^匹配名称的开头：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-b158f0dec83a093b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>为了强制正则表达式比较区分大小写，使用区分大小写的排序规则，或者使用二进制关键字BINARY将字符串中的一个字符串转换为二进制字符串，或者指定C匹配控件字符。这些查询中的每一个仅匹配名称的开头的小写字母b：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-8ef84a4eed57d2bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption">collate(校对的意思) 这里使用小写字母的时候没有与其相匹配的name</div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-e466418c33fbe337.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption">使用二进制关键字BINARY</div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-b851f2fe655d8710.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">制定c匹配控件字符</div>
+</div><p>若要找到以FY结尾的名称，请使用$以匹配名称的结尾：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-8770cf44c66257cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>若要查找包含W的名称，请使用此查询：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-bdc284e11c4ba3df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>因为如果正则表达式模式出现在值的任何地方，那么它就匹配，所以在前面的查询中没有必要在模式的两侧放置通配符以获得与整个值匹配的通配符，这在SQL模式中是真实的。</p><p>要找到包含五个字符的名称，使用^和$匹配名称的开始和结束，以及五个实例.....。介于两者之间：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-586666c6bd7a082f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>还可以使用{n}（“重复n次”）操作符编写先前的查询：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-06ce8083bca8423c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">跟上一个的查询是一样的<br>
+</div>
+</div><p>有关正则表达式语法的更多信息，请参阅第125.2节“正则表达式”。</p><p><br></p><p>3.3.4.8计数行</p><p>数据库经常用来回答这个问题：“某一类型的数据在表中出现的频率是多少？”例如，您可能想知道您养了多少宠物，或者每个主人养了多少宠物，或者您可能希望对您的动物执行各种普查操作。</p><p>计算你所拥有的动物的总数和“宠物桌子里有多少排”是同样的问题？“因为每只宠物都有一张唱片。<a href="https://dev.mysql.com/doc/refman/8.0/en/group-by-functions.html#function_count" target="_blank">COUNT(*)</a> 计数行数，所以查询计数你的动物看起来像这样：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-d6144b42b3717d48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>早些时候，你检索了那些拥有宠物的人的名字。如果你想知道每个主人有多少宠物，你可以使用COUNT()。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-6231133a3e493364.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>前面的查询使用GROUP BY为每个所有者分组所有记录。使用COUNT（）与GROUP BY相结合，有助于描述不同分组下的数据。下面的例子展示了执行动物普查操作的不同方法。</p><p>每种动物数量：</p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-854a4f2e05e3a53b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>动物每种性别的数量:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-6c372a2f96116d18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>（在这个输出中，NULL表示性别未知）。</p><p><br></p><p>不同物种的性别的动物数量：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-9aea0e61bbc04e41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>当使用COUNT（）时，不需要检索整个表。例如，以前的查询，当只在狗和猫上进行时，看起来是这样的：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-7067e77d3d82738b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption">加了一个where语句进行限定</div>
+</div><p>或者，如果你想知道每种动物性别的数量，只知道已知性别的动物：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-183bf24e15dbb09c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如果除了COUNT()值之外还要命名要选择的列，则应该提供一个GROUP BY子句，用于命名那些相同的列。否则，发生以下情况：</p><p>如果启用了<a href="https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html#sqlmode_only_full_group_by" target="_blank">ONLY_FULL_GROUP_BY</a> SQL模式，则会发生错误：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-493a51a6d007b2ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ca94322fe974f282.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>如果未启用ONLY_FULL_GROUP_.，则通过将所有行视为单个组来处理查询，但是为每个命名列选择的值不确定。服务器可以自由选择任何行的值：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-294cac871571ba89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>也请参阅第1219.3节，“MySQL处理组”。有关COUNT(expr)行为和相关优化的信息，请参阅第12.19.1节“聚合(GROUP BY)功能描述”。</p><p><br></p><p><br></p><p>3.3.4.9使用多个表</p><p>宠物表记录你有哪些宠物。如果你想记录关于他们的其他信息，比如他们生活中的事件，比如看兽医或者当婴儿出生时，你需要另一张表。这张表应该是什么样子？它需要包含以下信息：</p><p>宠物名称，让你知道每一个事件所涉及的动物。</p><p>一个日期，以便你知道事件发生的时间。</p><p>事件类型字段，如果您希望能够对事件进行分类。</p><p>描述事件的字段。</p><p>考虑到这些因素，事件表的CREATETABLE语句可能是这样的：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ac3305b7be9a16cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>与pet表一样，通过创建包含以下信息的选项卡分隔的文本文件来加载初始记录是最容易的。</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-b4fc6a4a115f437c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption">需要加载的数据表格</div>
+</div><p>像这样加载记录：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-17d15eae8921d0a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">加载不成功看其他学习的文件</div>
+</div><p>根据您从在pet表上运行的查询中学到的知识，您应该能够对事件表中的记录执行检索；原则是相同的。但是，事件表本身什么时候不足以回答你可能会问的问题呢？</p><p>假设你想找出每个宠物都有窝的年龄。我们早先看到如何计算两个日期的年龄。母亲的出生日期在事件表中，但是为了计算母亲的年龄，您需要她的出生日期，该日期存储在宠物表中。这意味着查询需要两个表：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-0ff43c71b6f9f40b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>关于这个查询有几点需要注意：</p><p>from子句连接两个表，因为查询需要从这两个表中提取信息。</p><p>当组合（连接）来自多个表的信息时，您需要指定一个表中的记录如何与另一个表中的记录匹配。这很容易，因为它们都有名称栏。查询使用ON子句根据名称值匹配两个表中的记录。</p><p>查询使用内部联接来组合表。如果且仅当两个表都满足ON子句中指定的条件，则INNER JOIN允许来自任一表的行出现在结果中。在这个示例中，ON子句指定PET表中的名称列必须与事件表中的名称列相匹配。如果一个名称出现在一个表中，但不出现在另一个表中，则该行将不会出现在结果中，因为ON子句中的条件失败。</p><p>因为名称列出现在两个表中，所以您必须具体说明在引用列时所指的是哪个表。这是通过将表名添加到列名来完成的。</p><p>您不需要有两个不同的表来执行连接。有时，如果要将表中的记录与同一表中的其他记录进行比较，则将表连接到自身是有用的。例如，为了在您的宠物中找到繁殖对，您可以加入宠物表，以自己产生同类物种的候选雄性和雌性：</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-4387f4fba3a9c423.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

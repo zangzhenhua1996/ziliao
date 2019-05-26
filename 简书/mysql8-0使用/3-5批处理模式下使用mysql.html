@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.5批处理模式下使用mysql</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">3.5批处理模式下使用mysql</h1>
+        <div class="show-content">
+          <p><a href="" target="_blank">在前面的章节中，你交互式地使用<b>mysql</b>输入查询并且查看结果。你也可以以批模式运行<b>mysql</b>。为了做到这些，把你想要运行的命令放在一个文件中，然后告诉<b>mysql</b>从文件读取它的输入：</a></p><p>shell&gt;<b>mysql &lt;<i>batch-file</i></b></p><p>如果在Windows下运行<b>mysql</b>，并且文件中有一些可以造成问题的特殊字符，可以这样操作：</p><p>C:\&gt;<b>mysql -e "source<i>batch-file</i>"</b></p><p>如果你需要在命令行上指定连接参数，命令应为：</p><p>shell&gt;<b>mysql -h<i>host</i>-u<i>user</i>-p &lt;<i>batch-file</i></b></p><p>Enter password:<b>********</b></p><p>当这样操作<b>mysql</b>时，则创建一个脚本文件，然后执行脚本。</p><p>如果你想在语句出现错误的时候仍想继续执行脚本，则应使用--force命令行选项。</p><p>为什么要使用一个脚本？有很多原因：</p><p>如果你需要重复运行查询(比如说，每天或每周)，可以把它编成一个脚本，则每次执行时不必重新键入。</p><p>可以通过拷贝并编辑脚本文件从类似的现有的查询生成一个新查询。</p><p>当你正在开发查询时，批模式也是很有用的，特别对多行命令或多语句命令序列。如果你犯了一个错误，你不必重新输入所有内容，只需要编辑脚本来改正错误，然后告诉<b>mysql</b>再次执行脚本。</p><p>如果你有一个产生多个输出的查询，你可以通过一个分页器而不是盯着它翻屏到屏幕的顶端来运行输出：</p><p>·                shell&gt;<b> mysql &lt; batch-file | more</b></p><p>你可以捕捉文件中的输出以便进行进一步的处理：</p><p>·                shell&gt;<b> mysql &lt; batch-file &gt; mysql.out</b></p><p>你可以将脚本分发给另外的人，以便他们也能运行命令。</p><p>某些情况不允许交互地使用，例如, 当你从一个<b>cron</b>任务中运行查询时。在这种情况下，你必须使用批模式。</p><p>当你以批模式运行mysql时，比起你交互地使用它时，其默认输出格式是不同的(更简明些)。例如，当交互式运行SELECT DISTINCT species FROM pet时，输出应为：</p><p><br></p><p>+---------+</p><p>| species |</p><p>+---------+</p><p>| bird    |</p><p>| cat     |</p><p>| dog     |</p><p>| hamster |</p><p>| snake   |</p><p>+---------+</p><p>但是当以批模式运行时，输出应为：</p><p>species</p><p>bird</p><p>cat</p><p>dog</p><p>hamster</p><p>snake</p><p>如果你想要在批模式中得到交互输出格式，使用mysql -t。为了回显以输出被执行的命令，使用mysql -vvv。</p><p>你还可以使用源代码或\.命令从<b>mysql</b>提示符运行脚本：</p><p>mysql&gt;<b>source filename;</b></p><p>mysql&gt;<b>\. filename</b></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

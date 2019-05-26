@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pocketsphnix离线语音识别的使用</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">pocketsphnix离线语音识别的使用</h1>
+        <div class="show-content">
+          <p>1 .安装SpeechRecognition模块</p><p>pip install SpeechRecognition</p><p>2 ,使用recognize_sphinx()离线语音识别，安装PocketSphinx</p><p>pip  install pocketsphinx</p><p>注意:如果安装不成功的话需要错误提示安装whl文件</p><p>切换到whl文件所在的文件夹下用pip进行安装即可.</p><p>pip   install   pocketsphinx-0.1.15-cp37-cp37m-win_amd64.whl</p><p>3.测试代码</p><p># -*- coding: utf-8 -*-</p><p>"""</p><p>Created on Sun Feb 24 22:30:23 2019</p><p>@author: zangz</p><p>"""</p><p>import speech_recognition as sr</p><p># obtain audio from the microphone</p><p>r = sr.Recognizer() </p><p># print(r)</p><p>for i in range(122,200):</p><p>    str1='S0002/BAC009S0002W0'+str(i)+'.wav'</p><p>    harvard = sr.AudioFile(str1)</p><p>#     print(harvard)</p><p>    with harvard as source:</p><p>        audio = r.record(source)</p><p>    # recognize speech using Sphinx</p><p>    try:</p><p>        print("Sphinx thinks you said " + r.recognize_sphinx(audio,language="zh_CN"))</p><p>    except sr.UnknownValueError:</p><p>        print("Sphinx could not understand audio")</p><p>    except sr.RequestError as e:</p><p>        print("Sphinx error; {0}".format(e))</p><p>注意直接识别 中文是不支持的需要下载中文的模型.</p><p>然后对应英文的模块修改</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-904f8bb3af94d66b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-c40abb047d3be385.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>再次运行程序即可</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-9b395af4b0dc1347.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>可以看到测试成功</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

