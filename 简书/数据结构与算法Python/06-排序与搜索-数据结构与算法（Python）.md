@@ -194,7 +194,7 @@ print("排序完成的列表: ",li)
 ![Selection-Sort-Animation.gif](https://upload-images.jianshu.io/upload_images/14555448-9e7e6fec5de19387.gif?imageMogr2/auto-orient/strip)
 
 
- 红色表示当前最小值，黄色表示已排序序列，蓝色表示当前位置。
+ 红色表示当前最小值，黄色表示已排序序列，蓝色表示当前位置。
 
 ```python
 # -*- coding: utf-8 -*-
@@ -420,7 +420,7 @@ print("插入排序好的列表: ",alist)
 ![image.png](https://upload-images.jianshu.io/upload_images/14555448-ca7deda8426db7a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-```
+```python
 def quick_sort(alist, start, end):
     """快速排序"""
 
@@ -468,7 +468,7 @@ print(alist)
 
 ## 时间复杂度
 
-*   最优时间复杂度：O(nlogn)
+*   最优时间复杂度：O(nlogn)  横向是n,竖向是logn
 *   最坏时间复杂度：O(n<sup>2</sup>)
 *   稳定性：不稳定
 
@@ -480,3 +480,98 @@ print(alist)
 
 ![quicksort.gif](https://upload-images.jianshu.io/upload_images/14555448-854ccdc2d62a86db.gif?imageMogr2/auto-orient/strip)
 
+## 归并排序
+归并排序是采用分治法的一个非常典型的应用。归并排序的思想就是先递归分解数组，再合并数组。
+
+将数组分解最小之后，然后合并两个有序数组，基本思路是比较两个数组的最前面的数，谁小就先取谁，取了后相应的指针就往后移一位。然后再比较，直至一个数组为空，最后把另一个数组的剩余部分复制过来即可。 
+## 归并排序的分析
+![Merge-sort-example.gif](https://upload-images.jianshu.io/upload_images/14555448-f758a63a1185706c.gif?imageMogr2/auto-orient/strip)
+![image.png](https://upload-images.jianshu.io/upload_images/14555448-f77e6c5ca8a3b61b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+
+```python
+def merge_sort(alist):  
+    if len(alist) <= 1:  #如果传进来的列表长度小于1就结束递归,直接返回alist
+        return alist
+    # 二分分解
+    num = len(alist)//2   #得到的是中间位置的坐标
+    left = merge_sort(alist[:num])  #将列表分成两部分,递归拆分
+    right = merge_sort(alist[num:])  #这里不管中间的过程,一定是会返回左边一个有序的列表,右边返回一个排序好的整体
+    # 合并  (然后将这两个有序的列表进行合并)
+    return merge(left,right)
+
+def merge(left, right):
+    '''合并操作，将两个有序数组left[]和right[]合并成一个大的有序数组'''
+    #left与right的下标指针
+    l, r = 0, 0
+    result = []
+    while l<len(left) and r<len(right):
+        if left[l] < right[r]:
+            result.append(left[l])
+            l += 1
+        else:
+            result.append(right[r])
+            r += 1
+    result += left[l:]   #退出循环说明有一个指针走完了,那么就把另一部分剩余的添加进去
+    result += right[r:]  #这两个天剑只会添加一个,谁后走完谁添加
+    return result
+
+alist = [54,26,93,17,77,31,44,55,20]
+sorted_alist = merge_sort(alist)
+print(sorted_alist)
+```
+###  时间复杂度
+* 最优时间复杂度：O(nlogn)
+* 最坏时间复杂度：O(nlogn)
+* 稳定性：稳定
+* 额外的空间开销
+
+## 常见排序算法效率比较
+![image.png](https://upload-images.jianshu.io/upload_images/14555448-6061ae09ee597c32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+## 搜索
+搜索是在一个项目集合中找到一个特定项目的算法过程。搜索通常的答案是真的或假的，因为该项目是否存在。 搜索的几种常见方法：顺序查找、二分法查找、二叉树查找、哈希查找
+### 二分法查找
+二分查找又称折半查找，优点是比较次数少，查找速度快，平均性能好；其缺点是要求待查表为有序表，且插入删除困难。因此，折半查找方法适用于不经常变动而查找频繁的有序列表。首先，假设表中元素是按升序排列，将表中间位置记录的关键字与查找关键字比较，如果两者相等，则查找成功；否则利用中间位置记录将表分成前、后两个子表，如果中间位置记录的关键字大于查找关键字，则进一步查找前一子表，否则进一步查找后一子表。重复以上过程，直到找到满足条件的记录，使查找成功，或直到子表不存在为止，此时查找不成功。
+![image.png](https://upload-images.jianshu.io/upload_images/14555448-98c2569e4cd6d5e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+### 二分法查找实现
+#### （非递归实现）
+```python
+    first = 0  #起始位置指针
+    last = len(alist)-1  #结束位置的指针
+    while first <= last:  #结束的条件,一是返回了查找到,否则当这两个值不满足这个条件时,就说明查找不到了,就返回False
+        midpoint = (first + last)//2  #中间位置 #这里需要的是圆整
+        if alist[midpoint] == item:  #如果跟中间值相等意味着查找到,就返回True
+            return True
+        elif item < alist[midpoint]:  #如果这个值比中间值小,就缩小搜索范围的到左边
+            last = midpoint-1  #中间的不相等就剔除,那么就把结束位置的指针放到中间元素的前一个位置
+        else:
+            first = midpoint+1
+    return False
+testlist = [0, 1, 2, 8, 13, 17, 19, 32, 42,]
+print(binary_search(testlist, 3))
+print(binary_search(testlist, 13))
+```
+#### （递归实现）
+```python
+def binary_search(alist, item):  #传入的是两个数据,一个是待查找的列表,一个是需要查找的数
+    if len(alist) == 0:  #最终什么也没有查找到,就返回一个False
+        return False
+    else:
+        midpoint = len(alist)//2 #这个是新的传入列表的中间值
+        
+        if alist[midpoint]==item:  #如果这个中间值跟需要查找的数相等就代表查找到了就返回True
+          return True
+        else:   
+          if item<alist[midpoint]:#否则的话如果这个待查找的值小于中间值中间,就递归查找左边部分
+            return binary_search(alist[:midpoint],item)
+          else:
+            return binary_search(alist[midpoint+1:],item)  #中间值不等于就直接剔除掉
+
+testlist = [0, 1, 2, 8, 13, 17, 19, 32, 42,]
+print(binary_search(testlist, 3))
+print(binary_search(testlist, 13))
+```
+### 时间复杂度
+* 最优时间复杂度：O(1)
+* 最坏时间复杂度：O(logn)
