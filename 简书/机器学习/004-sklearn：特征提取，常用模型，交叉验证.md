@@ -154,7 +154,7 @@ model.score(data_X, data_y) # 回归问题：以R2参数为标准 分类问题�
 sklearn中线性回归使用最小二乘法实现，使用起来非常简单。
 线性回归是回归问题，score使用R2系数做为评价标准。
 
-```
+```python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Apr 25 09:47:00 2019
@@ -211,7 +211,7 @@ logistic回归是一种广义线性回归（generalized linear model），因此
 sklearn对于逻辑回归的实现也非常简单，直接上代码了。
 逻辑回归是分类问题，score使用准确率做为评价标准。
 
-```
+```python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Apr 25 09:53:41 2019
