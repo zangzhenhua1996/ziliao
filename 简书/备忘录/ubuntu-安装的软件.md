@@ -1,0 +1,11 @@
+![image.png](https://upload-images.jianshu.io/upload_images/14555448-921fe5828a90153d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://upload-images.jianshu.io/upload_images/14555448-eea8884dcdfd59e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://upload-images.jianshu.io/upload_images/14555448-19fc52c08ee05edf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://upload-images.jianshu.io/upload_images/14555448-deec559152c1f61e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+更新了flameshot到0.6
+删除了notepadqq
+删除了kolourpaint
+安装了pinta
+卸载了ibus输入法
+安装fictx输入法
+安装搜狗输入法

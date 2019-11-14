@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乌班图下mysql 8.0无法加载本地数据的解决办法</title>
+    <style type="text/css" media="all">
+      body {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        color: #777;
+        background-color: white;
+      }
+      .container {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .post {
+        font-family: Georgia, "Times New Roman", Times, "SimSun", serif;
+        position: relative;
+        padding: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 25px;
+        color: #515151;
+      }
+
+      .post h1{
+        font-size: 50px;
+        font-weight: 500;
+        line-height: 60px;
+        margin-bottom: 40px;
+        color: inherit;
+      }
+
+      .post p {
+        margin: 0 0 35px 0;
+      }
+
+      .post img {
+        border: 1px solid #D9D9D9;
+      }
+
+      .post a {
+        color: #28A1C5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="post">
+        <h1 class="title">乌班图下mysql 8.0无法加载本地数据的解决办法</h1>
+        <div class="show-content">
+          <p>首先第一步直接登录进入到mysql:2018</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-7d6d6b1f53754152.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">直接登录mysql<br>
+</div>
+</div><p>第二步查看local_infile是否开启:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-687c952331e0eedc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">可以看到这里是没有开启的显示值为off</div>
+</div><p>第三步将local_infile的值置为ON</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-ef89e53145c0308c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">置为ON即为1</div>
+</div><p>第四步查看local_infile是否开启:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-db17b16d6f3e5860.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">可以看到置为ON</div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-9da429bafa73c4c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">可以看到即使是置为ON但是依旧不能进行加载本地数据<br>
+</div>
+</div><p>第五步退出登录重新利用下面的语句进行登录:</p><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-10e9719131500fc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" title="" style="" width="auto" height="auto"><br><div class="image-caption"></div>
+</div><p><br></p><div class="image-package">
+<img class="uploaded-img" src="http://upload-images.jianshu.io/upload_images/14555448-1160e73db86a24ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="auto" height="auto"><br><div class="image-caption">载入数据成功</div>
+</div><p><br></p><p>总结:利用该种方式登录之前一定要确保local_infile在variables中是ON的不然即使使用这种方式登录依旧会报错不能解决问题.</p><p>困扰了好久的问题终于解决了,果然自己的问题自己解决才是最靠谱的,结合了那么多文章写的内容才解决了这个问题.虽然很是累,但是功夫不负有心人,继续加油喽.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
